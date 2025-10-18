@@ -1,0 +1,21 @@
+stages:
+  - build
+  - deploy
+
+build_custom_docker_image:
+  stage: .pre
+  image: docker:28
+  services:
+    - docker:28-dind
+  script:
+    - docker version
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/java21-maven-awscli .
+    - docker image ls
+    - docker push $CI_REGISTRY_IMAGE/java21-maven-awscli
+
+test_image:
+  stage: build
+  script:
+    - mvn --version
+    - aws --version
