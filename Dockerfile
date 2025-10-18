@@ -1,5 +1,5 @@
 # Use Maven image with JDK 21 (Temurin distribution)
-FROM 3.9.11-eclipse-temurin-21
+FROM maven:3.9.11-eclipse-temurin-21
 
 # Install AWS CLI v2
 RUN apt-get update && \
