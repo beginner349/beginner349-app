@@ -16,6 +16,7 @@ build_custom_docker_image:
 
 test_image:
   stage: build
+  image: $CI_REGISTRY_IMAGE/java21-maven-awscli
   script:
     - mvn --version
     - aws --version
