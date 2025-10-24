@@ -4,6 +4,13 @@ stages:
   - package
   - deploy
 
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository" # Cache Maven dependencies
+
+cache:
+  paths:
+    - .m2/repository/
+
 build-job:
   stage: build
   image: maven:3.9.11-eclipse-temurin-21
@@ -17,6 +24,16 @@ test-job:
   script:
     - echo "Running tests..."
     - mvn test
+
+package-job:
+  stage: package
+  image: maven:3.9.11-eclipse-temurin-21
+  script:
+    - echo "Packaging application..."
+    - mvn package -DskipTests=true
+  artifacts:
+    paths:
+      - target/*.jar
 
 # just to learn how to create a customer docker image and push to gitlab Container registry
 .build_custom_docker_image:
