@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Beginner349Application
+
+# @ConfigurationPropertiesBinding example
+app:
+  exit-on-errors: true
+  trade-start-date: 16-10-2021
+

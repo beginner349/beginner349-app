@@ -1,8 +1,19 @@
 stages:
   - build
+  - test
+  - package
   - deploy
 
-build_custom_docker_image:
+build-job:
+  stage: build
+  image: maven:3.9.11-eclipse-temurin-21
+  script:
+    - echo "Building Java project with Maven..."
+    - mvn compile
+
+
+# just to learn how to create a customer docker image and push to gitlab Container registry
+.build_custom_docker_image:
   stage: .pre
   image: docker:28
   services:
@@ -10,11 +21,11 @@ build_custom_docker_image:
   script:
     - docker version
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE/java21-maven-awscli .
+    - docker build -t $CI_REGISTRY_IMAGE/java21-maven-awscli -f ci-cd/Dockerfile .
     - docker image ls
     - docker push $CI_REGISTRY_IMAGE/java21-maven-awscli
 
-test_image:
+.test_image:
   stage: build
   image: $CI_REGISTRY_IMAGE/java21-maven-awscli
   script:
