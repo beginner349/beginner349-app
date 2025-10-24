@@ -11,6 +11,12 @@ build-job:
     - echo "Building Java project with Maven..."
     - mvn compile
 
+test-job:
+  stage: test
+  image: maven:3.9.11-eclipse-temurin-21
+  script:
+    - echo "Running tests..."
+    - mvn test
 
 # just to learn how to create a customer docker image and push to gitlab Container registry
 .build_custom_docker_image:
