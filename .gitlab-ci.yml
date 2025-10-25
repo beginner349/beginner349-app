@@ -44,7 +44,7 @@ push-to-ecr:
   variables:
     DOCKER_HOST: tcp://docker:2375/
   script:
-    - aws -version
+    - aws --version
     - docker version
     - docker build -t $AWS_ECR/beginner349application .
     - aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ECR
