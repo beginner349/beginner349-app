@@ -12,21 +12,21 @@ cache:
   paths:
     - .m2/repository/
 
-build-job:
+compile-java:
   stage: build
   image: maven:3.9.11-eclipse-temurin-21
   script:
     - echo "Building Java project with Maven..."
     - mvn compile
 
-test-job:
+unit-test:
   stage: test
   image: maven:3.9.11-eclipse-temurin-21
   script:
     - echo "Running tests..."
     - mvn test
 
-package-job:
+package-jar:
   stage: package
   image: maven:3.9.11-eclipse-temurin-21
   script:
@@ -49,6 +49,16 @@ push-to-ecr:
     - docker build -t $AWS_ECR/beginner349application .
     - aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ECR
     - docker push $AWS_ECR/beginner349application
+
+deploy-to-ecs:
+  stage: deploy
+  image:
+    name: amazon/aws-cli:2.31.13
+    entrypoint: [""]
+  script:
+    - aws --version
+    - aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --force-new-deployment
+    - aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER --services $AWS_ECS_SERVICE
 
 # just to learn how to create a customer docker image and push to gitlab Container registry
 .build_custom_docker_image:
