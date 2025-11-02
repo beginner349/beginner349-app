@@ -55,6 +55,8 @@ push-to-ecr:
     - docker build -t $AWS_ECR/beginner349application .
     - aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ECR
     - docker push $AWS_ECR/beginner349application
+  dependencies:
+    - package-jar
 
 deploy-to-ecs:
   stage: deploy
