@@ -20,21 +20,21 @@ cache:
 
 compile-java:
   stage: build
-  image: maven:3.9.11-eclipse-temurin-21
+  image: maven:3.9.12-eclipse-temurin-25
   script:
     - echo "Building Java project with Maven..."
     - mvn compile
 
 unit-test:
   stage: test
-  image: maven:3.9.11-eclipse-temurin-21
+  image: maven:3.9.12-eclipse-temurin-25
   script:
     - echo "Running tests..."
     - mvn test
 
 package-jar:
   stage: package
-  image: maven:3.9.11-eclipse-temurin-21
+  image: maven:3.9.12-eclipse-temurin-25
   script:
     - echo "Packaging application..."
     - mvn package -DskipTests=true
