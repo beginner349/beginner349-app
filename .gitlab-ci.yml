@@ -77,7 +77,7 @@ deploy-to-ecs:
   script:
     - aws --version
     - |
-      echo "${MY_OIDC_TOKEN}" > /tmp/web_identity_token
+      echo "${GITLAB_OIDC_TOKEN}" > /tmp/web_identity_token
       export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/web_identity_token      
       export AWS_ROLE_ARN=${AWS_ROLE_ARN}
       export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} # Ensure region is set
