@@ -49,10 +49,23 @@ push-to-ecr:
     - docker:28-dind
   variables:
     DOCKER_HOST: tcp://docker:2375/
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: sts.amazonaws.com
   script:
     - aws --version
     - docker version
     - docker build -t $AWS_ECR/beginner349application .
+    - >
+      aws_sts_output=$(aws sts assume-role-with-web-identity
+      --role-arn ${AWS_ROLE_ARN}
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+      --web-identity-token ${GITLAB_OIDC_TOKEN}
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text)
+    - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $aws_sts_output)
+    - aws sts get-caller-identity
     - aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ECR
     - docker push $AWS_ECR/beginner349application
   dependencies:
@@ -63,8 +76,21 @@ deploy-to-ecs:
   image:
     name: amazon/aws-cli:2.31.13
     entrypoint: [""]
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: sts.amazonaws.com
   script:
     - aws --version
+    - >
+      aws_sts_output=$(aws sts assume-role-with-web-identity
+      --role-arn ${AWS_ROLE_ARN}
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+      --web-identity-token ${GITLAB_OIDC_TOKEN}
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text)
+    - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $aws_sts_output)
+    - aws sts get-caller-identity
     - aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --force-new-deployment
     - aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER --services $AWS_ECS_SERVICE
 
