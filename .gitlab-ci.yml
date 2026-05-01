@@ -83,6 +83,7 @@ deploy-to-ecs:
       export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} # Ensure region is set
     - aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --force-new-deployment
     - aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER --services $AWS_ECS_SERVICE
+  when: manual
 
 # just to learn how to create a customer docker image and push to gitlab Container registry
 .build_custom_docker_image:

@@ -22,4 +22,10 @@ public class HelloController {
         logger.info("exitOnErrors: {}, tradeStartDate: {}", applicationProperties.exitOnErrors(), applicationProperties.tradeStartDate());
         return "Welcome to Jiajun's SpringBoot project";
     }
+    
+    // This endpoint is protected and requires authentication
+    @GetMapping("/secured")
+    public String securedEndpoint() {
+        return "This is a secured endpoint, only authenticated users can access this";
+    }
 }
