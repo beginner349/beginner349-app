@@ -1,11 +1,11 @@
-package sg.com.chen.Beginner349Application.controller;
+package sg.com.chen.Beginner349.app.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sg.com.chen.Beginner349Application.aop.LogExecutionTime;
-import sg.com.chen.Beginner349Application.config.ApplicationProperties;
+import sg.com.chen.Beginner349.app.aop.LogExecutionTime;
+import sg.com.chen.Beginner349.app.config.ApplicationProperties;
 
 @RestController
 public class HelloController {

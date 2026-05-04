@@ -1,4 +1,4 @@
-package sg.com.chen.Beginner349Application.aop;
+package sg.com.chen.Beginner349.app.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

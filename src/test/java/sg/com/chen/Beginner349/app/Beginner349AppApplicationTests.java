@@ -1,4 +1,4 @@
-package sg.com.chen.Beginner349Application;
+package sg.com.chen.Beginner349.app;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 @SpringBootTest
-class Beginner349ApplicationTests {
+class Beginner349AppApplicationTests {
     @MockitoBean
     private DynamoDbClient dynamoDbClient;
 

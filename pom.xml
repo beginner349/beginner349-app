@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>sg.com.chen</groupId>
-	<artifactId>Beginner349Application</artifactId>
+	<artifactId>beginner349-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Beginner349Application</name>
+	<name>Beginner349 App</name>
 	<description>Demo project for Spring Boot 2024</description>
 	<url/>
 	<licenses>

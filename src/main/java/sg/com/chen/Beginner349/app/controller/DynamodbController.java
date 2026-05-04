@@ -1,4 +1,4 @@
-package sg.com.chen.Beginner349Application.controller;
+package sg.com.chen.Beginner349.app.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
