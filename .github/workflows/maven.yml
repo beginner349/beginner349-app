@@ -3,8 +3,6 @@ name: Java CI with Maven
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build-and-test:
@@ -63,3 +61,36 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+  open-manifests-pr:
+    needs: push-to-ecr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout k8s-manifests
+        uses: actions/checkout@v6
+        with:
+          repository: beginner349/k8s-manifests
+          token: ${{ secrets.MANIFESTS_REPO_TOKEN }}
+
+      - name: Bump image tag in kustomization
+        env:
+          IMAGE: 542776678091.dkr.ecr.ap-southeast-1.amazonaws.com/beginner349-app
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd base
+          kustomize edit set image spring-boot-app=$IMAGE:$IMAGE_TAG
+
+      - name: Open PR to bump image tag
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.MANIFESTS_REPO_TOKEN }}
+          branch: bump/beginner349-app
+          delete-branch: true
+          commit-message: "chore: bump beginner349-app image to ${{ github.sha }}"
+          title: "chore: bump beginner349-app image to ${{ github.sha }}"
+          body: |
+            Automated image bump from beginner349-app CI.
+
+            - Commit: beginner349/beginner349-app@${{ github.sha }}
+            - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
