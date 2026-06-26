@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://auth.beginner349.com/realms/myrealm
+          issuer-uri: ${JWT_ISSUER_URI:http://localhost:8081/realms/myrealm}
 
 management:
   endpoints:
@@ -21,16 +21,16 @@ management:
   otlp:
     metrics:
       export:
-        url: http://grafana-alloy.monitoring.svc.cluster.local:4318/v1/metrics
+        url: ${OTLP_METRICS_ENDPOINT:http://localhost:4318/v1/metrics}
   opentelemetry:
     tracing:
       export:
         otlp:
-          endpoint: http://grafana-alloy.monitoring.svc.cluster.local:4318/v1/traces
+          endpoint: ${OTLP_TRACES_ENDPOINT:http://localhost:4318/v1/traces}
     logging:
       export:
         otlp:
-          endpoint: http://grafana-alloy.monitoring.svc.cluster.local:4318/v1/logs
+          endpoint: ${OTLP_LOGS_ENDPOINT:http://localhost:4318/v1/logs}
 
 # @ConfigurationPropertiesBinding example
 custom-properties:
