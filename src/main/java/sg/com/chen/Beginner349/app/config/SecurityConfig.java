@@ -15,7 +15,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         // Public endpoints
-                        .requestMatchers("/", "/redirect").permitAll()
+                        .requestMatchers("/", "/redirect", "/actuator/health", "/actuator/health/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Disable CSRF so that API endpoints can accept multipart POSTS from tools/clients without a CSRF token.

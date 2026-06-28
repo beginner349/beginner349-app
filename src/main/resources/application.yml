@@ -8,13 +8,6 @@ spring:
           issuer-uri: ${JWT_ISSUER_URI:http://localhost:8081/realms/myrealm}
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
   tracing:
     sampling:
       probability: 1.0
