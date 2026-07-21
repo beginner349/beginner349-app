@@ -31,6 +31,7 @@ public class HelloController {
     // This endpoint is protected and requires authentication
     @GetMapping("/secured")
     public String securedEndpoint() {
+        logger.info("Accessing secured endpoint");
         return "This is a secured endpoint, only authenticated users can access this";
     }
 
