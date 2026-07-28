@@ -1,13 +1,13 @@
 package sg.com.chen.Beginner349.app.entity.s3;
 
 import jakarta.persistence.*;
+import sg.com.chen.Beginner349.app.entity.Auditable;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "upload")
-public class Upload {
+public class Upload extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
@@ -38,16 +38,10 @@ public class Upload {
     @Column(name = "status", nullable = false, length = 20)
     public UploadStatus status;
 
-    @Column(name = "created_at")
-    public LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    public LocalDateTime updatedAt;
-
     public Upload() {
     }
 
-    public Upload(String fileName, Long fileSize, Long partSize, int totalParts, String contentType, String s3Key, String s3UploadId, UploadStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Upload(String fileName, Long fileSize, Long partSize, int totalParts, String contentType, String s3Key, String s3UploadId, UploadStatus status) {
         this.fileName = fileName;
         this.fileSize = fileSize;
         this.partSize = partSize;
@@ -56,7 +50,5 @@ public class Upload {
         this.s3Key = s3Key;
         this.s3UploadId = s3UploadId;
         this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 }

@@ -8,6 +8,8 @@ CREATE TABLE upload (
     s3_key VARCHAR(255),
     s3_upload_id VARCHAR(255),
     status VARCHAR(20) NOT NULL,    -- INITIATED | COMPLETED | ABORTED
+    created_by VARCHAR(36),
     created_at TIMESTAMP,
+    updated_by  VARCHAR(36),
     updated_at TIMESTAMP
 );

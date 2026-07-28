@@ -17,7 +17,6 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.UploadPartPresignRequest;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,9 +66,7 @@ public class MultipartUploadService {
                 req.contentType(),
                 key,
                 created.uploadId(),
-                UploadStatus.INITIATED,
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                UploadStatus.INITIATED
         );
 
         Upload saved = uploadRepository.save(upload);
@@ -144,7 +141,6 @@ public class MultipartUploadService {
                 .multipartUpload(mp -> mp.parts(parts))
         );
         upload.status = UploadStatus.COMPLETED;
-        upload.updatedAt = LocalDateTime.now();
         log.info("Upload {} completed successfully with {} parts", id, parts.size());
     }
 
@@ -177,7 +173,6 @@ public class MultipartUploadService {
                     .uploadId(upload.s3UploadId)
             );
             upload.status = UploadStatus.ABORTED;
-            upload.updatedAt = LocalDateTime.now();
             log.info("Upload {} aborted successfully", id);
         }
     }
